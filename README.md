@@ -120,20 +120,22 @@ per sentiment. The contrast tells the whole story.
 
 **😊 Positive Reviews — Most Common Words:**
 
+```
 ╔══════════════════════════════════════════════╗
-║  magical  amazing  fun  family  loved        ║
-║  great  ride  experience  wonderful  best    ║
-║  kids  park  day  place  visit  beautiful    ║
+║  magical   amazing    fun    family   loved  ║
+║  great     ride    experience wonderful best ║
+║  kids      park      day     place   visit   ║
 ╚══════════════════════════════════════════════╝
-
+```
 **😞 Negative Reviews — Most Common Words:**
 
+```
 ╔══════════════════════════════════════════════╗
-║  queue  wait  overpriced  crowd  expensive   ║
-║  disappointed  hour  line  money  poor       ║
-║  staff  ride  long  bad  waste  never        ║
+║  queue     wait   overpriced  crowd  costly  ║
+║  disappointed     hour    line    money poor ║
+║  staff     ride     long     bad    never    ║
 ╚══════════════════════════════════════════════╝
-
+```
 Notice something? The word **"ride"** appears in *both*.
 In positive reviews — it's the highlight.
 In negative reviews — it's the thing they waited 2 hours for.
@@ -169,14 +171,16 @@ That matters when you're presenting results to real stakeholders.
 ---
 
 ## 📈 Results — How Well Did It Work?
-╔══════════════════════════════════════════╗
-║         MODEL PERFORMANCE SUMMARY       ║
-╠══════════════════════════════════════════╣
-║  ✅  Accuracy   →   88%                 ║
-║  🎯  Precision  →   87%                 ║
-║  📊  Recall     →   88%                 ║
-║  🔁  F1 Score   →   87%                 ║
-╚══════════════════════════════════════════╝
+```
+╔══════════════════════════════════════════════╗
+║          MODEL PERFORMANCE SUMMARY           ║
+╠══════════════════════════════════════════════╣
+║   ✅  Accuracy   ──────────────────►  88%   ║
+║   🎯  Precision  ──────────────────►  87%   ║
+║   📊  Recall     ──────────────────►  88%   ║
+║   🔁  F1 Score   ──────────────────►  87%   ║
+╚══════════════════════════════════════════════╝
+```
 
 **What does 88% accuracy actually mean?**
 
