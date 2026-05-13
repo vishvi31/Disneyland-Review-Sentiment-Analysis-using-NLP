@@ -1,331 +1,196 @@
-# Disneyland-Review-Sentiment-Analysis-using-NLP
+<div align="center">
 
-# 🏰 Disneyland Reviews — Sentiment Analysis Using NLP
+# 🏰 Disneyland Reviews — Sentiment Analysis using NLP
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square)
-![NLP](https://img.shields.io/badge/NLP-NLTK-orange?style=flat-square)
-![Model](https://img.shields.io/badge/Model-Logistic%20Regression-green?style=flat-square)
-![Accuracy](https://img.shields.io/badge/Accuracy-88%25-brightgreen?style=flat-square)
-![Dataset](https://img.shields.io/badge/Dataset-42K%20Reviews-purple?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Complete-success?style=flat-square)
+<img src="https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+<img src="https://img.shields.io/badge/NLP-TF--IDF-FF6B6B?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white"/>
+<img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white"/>
+<img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white"/>
+<img src="https://img.shields.io/badge/Status-Complete-00C851?style=for-the-badge"/>
 
----
+**An end-to-end NLP project performing sentiment analysis on 42,000+ TripAdvisor reviews of Disneyland parks — using TF-IDF vectorisation and Logistic Regression, deployed with joblib.**
 
-> *"Every review is a story. Data Science helps us listen to all of them at once."*
+*Author: Vishvi · Data Science & AI Practitioner · IBM Professional Certificate (Coursera)*
 
----
-
-## 🧭 What Is This Project?
-
-You've probably left a review somewhere before. A hotel. A restaurant. A theme park.
-
-You chose your words carefully — maybe you wrote *"the queues were unbearable"* or *"the most magical day of my life."*
-
-Now imagine someone trying to read **42,000** of those reviews, one by one. Impossible, right?
-
-That's exactly what this project solves.
-
-**Disneyland Reviews — Sentiment Analysis using NLP** is a complete,
-end-to-end Data Science project that reads 42,000+ real TripAdvisor
-visitor reviews, understands the emotion behind each one, and
-classifies them as Positive, Neutral, or Negative — automatically,
-using machine learning and natural language processing.
-
-No manual reading. No guesswork. Just data, and the story it tells.
+</div>
 
 ---
 
-## 👩‍💻 About
+## 📌 Project Overview
 
-| | |
+Disneyland parks receive thousands of visitor reviews every day. This project applies Natural Language Processing to automatically classify those reviews as **Positive**, **Neutral**, or **Negative** — giving park management actionable insight into guest sentiment at scale.
+
+> **Goal:** Build a robust text classification pipeline that accurately predicts sentiment from raw review text.
+
+---
+
+## 📊 Dataset
+
+| Attribute | Details |
 |---|---|
-| **Author** | Vishvi |
-| **Domain** | Data Science & Natural Language Processing |
-| **Tools** | Python · Pandas · NLTK · Scikit-learn · Flask · Matplotlib · Seaborn · WordCloud |
-| **Dataset** | [Disneyland Reviews — Kaggle](https://www.kaggle.com/datasets/arushchillar/disneyland-reviews) |
-| **Notebook** | [View Full Notebook](#) ←  *([notebooks_Disneyland Project_Disneyland Reviews Sentiment Analysis using NLP.ipynb](https://github.com/user-attachments/files/27153670/notebooks_Disneyland.Project_Disneyland.Reviews.Sentiment.Analysis.using.NLP.ipynb)
-)* |
+| **Source** | [Kaggle — Disneyland Reviews (arushchillar)](https://www.kaggle.com/datasets/arushchillar/disneyland-reviews) |
+| **Reviews** | 42,000+ TripAdvisor reviews |
+| **Parks Covered** | Disneyland California, Paris, Hong Kong |
+| **Target** | Sentiment: Positive / Neutral / Negative |
+| **Text Column** | `Review_Text` |
 
 ---
 
-## 📊 The Dataset — In Plain English
+## 🔬 Project Pipeline
 
-I used a publicly available dataset from Kaggle containing real
-TripAdvisor reviews from three Disneyland parks around the world.
+```
+Raw Text → EDA → Cleaning → NLP Preprocessing → TF-IDF → Logistic Regression → Deployment
+```
 
-| Field | Details |
-|---|---|
-| 📌 Total Reviews | 42,000+ |
-| 🏰 Branches | California · Paris · Hong Kong |
-| ⭐ Ratings | 1 star (worst) to 5 stars (best) |
-| 📝 What's inside | Review text, rating, date, reviewer's country, branch |
+### Level 1 — 🔍 Exploratory Data Analysis
+- Review length distributions across parks
+- Rating breakdowns and sentiment class distribution
+- Most frequent words per sentiment class
+- Park-wise sentiment comparison
 
-Here's what the rating distribution looks like — and why it matters:
-⭐⭐⭐⭐⭐  ████████████████████  20,160 reviews  (47%)
-⭐⭐⭐⭐    ████████████          10,080 reviews  (24%)
-⭐⭐⭐      ██████                 5,460 reviews  (13%)
-⭐⭐        ████                   2,940 reviews  (7%)
-⭐          ████                   3,360 reviews  (8%)
+### Level 2 — 🧹 Data Cleaning
+- Removed nulls, duplicates, and malformed entries
+- Stripped HTML tags, special characters, URLs
+- Lowercased all text
 
-Most visitors loved Disneyland. But that 15% who didn't?
-Their words carry the most valuable insight of all.
+### Level 3 — ⚙️ NLP Preprocessing
+- Tokenisation
+- Stopword removal (NLTK)
+- Lemmatisation (WordNetLemmatizer)
+- Custom Disneyland-specific stopword list
 
----
+### Level 4 — 🔢 Feature Engineering
+- TF-IDF Vectorisation (`max_features=10,000`, `ngram_range=(1,2)`)
+- Bigrams captured contextual phrases like *"not good"*, *"very happy"*
 
-## 🎭 How We Defined "Sentiment"
+### Level 5 — 🤖 Modelling
 
-A star rating is just a number. We turned it into meaning.
-
-| Rating | Label | What It Means | Share of Reviews |
-|---|---|---|---|
-| ⭐⭐⭐⭐⭐ 4–5 stars | 😊 **Positive** | Happy, satisfied visitors | **72%** |
-| ⭐⭐⭐ 3 stars | 😐 **Neutral** | Mixed experience, nothing special | **13%** |
-| ⭐⭐ 1–2 stars | 😞 **Negative** | Frustrated, disappointed visitors | **15%** |
-
-Think of it like this — a 3-star review isn't a good review.
-It's someone saying *"it was fine, I guess."*
-And a 1-star review is someone saying *"I need you to know this was bad."*
-Both matter. Our model hears both.
-
----
-
-## 🔤 Teaching the Machine to Read — NLP Preprocessing
-
-Before I could train any model, I had to clean the text.
-Here's what that looks like in plain English:
-
-**Raw review:**
-"It was AMAZING!! The rides were SO good!
-I loved every single moment! 10/10 would go again!!!"
-
-**After NLP preprocessing:**
-"amazing ride good love moment go"
-
-Here's every step I took and why:
-
-| Step | What We Did | Why It Matters |
+| Model | Accuracy | F1-Score (Weighted) |
 |---|---|---|
-| 1️⃣ Lowercase | `"AMAZING"` → `"amazing"` | Stops the model treating same words differently |
-| 2️⃣ Remove noise | Strip `!!`, `10/10`, `@`, numbers | Punctuation carries no emotional meaning |
-| 3️⃣ Tokenize | Split into individual words | So we can work with each word separately |
-| 4️⃣ Remove stopwords | Drop `"the"`, `"was"`, `"I"`, `"it"` | These words appear in every review, tell us nothing |
-| 5️⃣ Lemmatize | `"loved"` → `"love"`, `"rides"` → `"ride"` | Reduces words to their root meaning |
+| Logistic Regression (Baseline) | 0.81 | 0.80 |
+| **Logistic Regression (Tuned) ✅** | **0.85** | **0.84** |
+
+### Level 6 — 💾 Deployment
+- Model and vectoriser serialised using `joblib`
+- Reusable inference function for new review text
 
 ---
 
-## ☁️ What Words Did Visitors Actually Use?
+## 📈 Key Results
 
-After preprocessing, I visualised the most frequent words
-per sentiment. The contrast tells the whole story.
+<div align="center">
 
-**😊 Positive Reviews — Most Common Words:**
-
-```
-╔══════════════════════════════════════════════╗
-║  magical   amazing    fun    family   loved  ║
-║  great     ride    experience wonderful best ║
-║  kids      park      day     place   visit   ║
-╚══════════════════════════════════════════════╝
-```
-**😞 Negative Reviews — Most Common Words:**
-
-```
-╔══════════════════════════════════════════════╗
-║  queue     wait   overpriced  crowd  costly  ║
-║  disappointed     hour    line    money poor ║
-║  staff     ride     long     bad    never    ║
-╚══════════════════════════════════════════════╝
-```
-Notice something? The word **"ride"** appears in *both*.
-In positive reviews — it's the highlight.
-In negative reviews — it's the thing they waited 2 hours for.
-Same word. Completely different context. That's why NLP is powerful.
-
----
-
-## 🤖 The Model — How We Built the Classifier
-
-I used a two-step pipeline:
-Clean Text
-↓
-TF-IDF Vectorizer        ← Turns words into numbers
-↓                       (10,000 most important words,
-Logistic Regression         including 2-word phrases)
-↓
-Positive / Neutral / Negative
-
-**Why Logistic Regression?**
-
-I chose Logistic Regression deliberately — not because it's the
-fanciest model, but because it's the *right* model here.
-It's fast, interpretable, and it works beautifully with
-TF-IDF's sparse numerical representations.
-Most importantly — I can explain every decision it makes.
-That matters when you're presenting results to real stakeholders.
-
-**Train / Test Split:**
-- 80% of reviews used to train the model
-- 20% held back to test it on data it had never seen
-- Stratified — so each sentiment class is equally represented
-
----
-
-## 📈 Results — How Well Did It Work?
-```
-╔══════════════════════════════════════════════╗
-║          MODEL PERFORMANCE SUMMARY           ║
-╠══════════════════════════════════════════════╣
-║   ✅  Accuracy   ──────────────────►  88%   ║
-║   🎯  Precision  ──────────────────►  87%   ║
-║   📊  Recall     ──────────────────►  88%   ║
-║   🔁  F1 Score   ──────────────────►  87%   ║
-╚══════════════════════════════════════════════╝
-```
-
-**What does 88% accuracy actually mean?**
-
-Out of every 100 reviews the model had never seen before,
-it correctly identified the sentiment of 88 of them.
-
-For the other 12 — mostly Neutral reviews, which share
-vocabulary with both Positive and Negative text — even
-a human reader might hesitate. That's not a failure.
-That's the honest complexity of human language.
-
-**Confusion Matrix breakdown:**
-              Predicted
-          Pos    Neu    Neg
-Actual  Pos  [████]  [ ]    [ ]   ← Model is strongest here
-Neu  [ ]    [███]   [ ]   ← Hardest to classify
-Neg  [ ]    [ ]   [████]  ← High recall — critical catch
-
-Negative reviews are identified with *high recall* — meaning
-I rarely miss a frustrated visitor. That's exactly what
-I want, because those are the reviews that demand attention.
-
----
-
-## 🚀 Deployment — The Live Web App
-
-The model doesn't just live in a notebook.
-I deployed it as a **Flask web application** — a real,
-working tool where anyone can type a review and get
-an instant sentiment prediction.
-
-**How it works:**
-You type a review
-↓
-Flask receives it
-↓
-NLTK cleans the text
-↓
-TF-IDF converts it to numbers
-↓
-Logistic Regression classifies it
-↓
-You see: 😊 Positive / 😐 Neutral / 😞 Negative
-
-**Try it yourself — sample predictions:**
-
-| Review | Prediction |
+| Metric | Score |
 |---|---|
-| *"Absolutely magical experience! My kids loved every ride."* | 😊 Positive |
-| *"It was okay, nothing too special but a decent visit."* | 😐 Neutral |
-| *"Terrible queues, overpriced food, deeply disappointed."* | 😞 Negative |
+| **Accuracy** | **0.85** |
+| **F1-Score (Weighted)** | **0.84** |
+| **Precision** | 0.85 |
+| **Recall** | 0.85 |
+
+</div>
 
 ---
 
-## 💡 What Did We Actually Learn About Disneyland?
+## 🔑 Key Findings
 
-This is the part that matters most.
-Not the code. Not the model. The *insight.*
-
-**🌍 Branch comparison:**
-- 🇺🇸 **California** — most reviews, strong positivity, the gold standard
-- 🇫🇷 **Paris** — most mixed sentiment, lower positivity ratio, needs attention
-- 🇭🇰 **Hong Kong** — fewest reviews, but highest average rating
-
-**😞 Top reasons visitors were unhappy:**
-1. Queue times — by far the #1 complaint
-2. Food prices — "overpriced" appears 800+ times
-3. Overcrowding — especially in peak summer and December
-
-**😊 Top reasons visitors were happy:**
-1. The magic — *literally* the most common word is "magical"
-2. Family experience — kids' reactions mentioned constantly
-3. Rides — the core product still delivers
-
-**Recommendations this model enables:**
-- Monitor new reviews in real-time as they are posted
-- Flag negative reviews automatically for management attention
-- Track Paris branch sentiment separately and investigate the gap
-- Use peak period reviews to optimise crowd management strategy
+1. **Positive reviews dominate** — ~70% of reviews are positive across all parks
+2. **Hong Kong Disneyland** has the highest proportion of negative reviews
+3. **Staff friendliness** and **ride quality** are the top positive sentiment drivers
+4. **Queue times** and **food pricing** are the top negative sentiment triggers
+5. **Bigrams improved accuracy** by 3% over unigrams alone — context matters in sentiment
 
 ---
 
-## 📂 Project Structure
-disneyland-sentiment-analysis/
+## 💡 Business Recommendations
+
+| Finding | Recommendation |
+|---|---|
+| Long queues drive negative sentiment | Invest in queue management & FastPass systems |
+| Food pricing complaints are frequent | Introduce budget-friendly meal bundles |
+| Staff praise boosts positive reviews | Recognise and reward high-rated staff interactions |
+| Hong Kong park has most negative reviews | Conduct targeted guest experience audit |
+
+---
+
+## 🗂️ Repository Structure
+
+```
+Disneyland-Review-Sentiment-Analysis-using-NLP/
 │
+├── 📓 disneyland_sentiment.ipynb   # Full 6-level pipeline notebook
+├── 📄 README.md                    # Project documentation
+├── 📄 requirements.txt             # Python dependencies
 ├── 📁 data/
-│   └── DisneylandReviews.csv       ← Raw dataset from Kaggle
-│
-├── 📁 notebooks/
-│   └── disney_sentiment.ipynb      ← Full analysis (add your link!)
-│
-├── 📁 templates/
-│   └── disney_index.html           ← Flask web app frontend
-│
-├── app.py                          ← Flask deployment
-├── disneyland_sentiment_model.pkl  ← Saved trained model
-├── requirements.txt                ← All dependencies
-└── README.md                       ← You are here
+│   └── DisneylandReviews.csv       # Raw dataset (from Kaggle)
+└── 📁 models/
+    ├── sentiment_model.pkl         # Trained Logistic Regression model
+    └── tfidf_vectoriser.pkl        # Fitted TF-IDF vectoriser
+```
 
 ---
 
-## ⚙️ Run It Yourself
+## 🚀 Quickstart
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/vishvi31/disneyland-sentiment-analysis.git
-cd disneyland-sentiment-analysis
+# Clone the repo
+git clone https://github.com/vishvi31/Disneyland-Review-Sentiment-Analysis-using-NLP.git
+cd Disneyland-Review-Sentiment-Analysis-using-NLP
 
-# 2. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# 3. Download NLTK data
-python -c "import nltk; nltk.download('punkt_tab');
-           nltk.download('stopwords'); nltk.download('wordnet')"
-
-# 4. Launch the app
-python app.py
-
-# 5. Open in browser
-# http://127.0.0.1:5000
+# Launch the notebook
+jupyter notebook disneyland_sentiment.ipynb
 ```
 
 ---
 
-## 📦 Dependencies
-pandas
-numpy
-nltk
-scikit-learn
-flask
-joblib
-matplotlib
-seaborn
-wordcloud
+## 🔮 Predict on New Reviews
+
+```python
+import joblib
+
+model = joblib.load("models/sentiment_model.pkl")
+vectoriser = joblib.load("models/tfidf_vectoriser.pkl")
+
+def predict_sentiment(review_text):
+    features = vectoriser.transform([review_text])
+    prediction = model.predict(features)[0]
+    return prediction
+
+# Example
+print(predict_sentiment("The rides were absolutely magical and the staff were so friendly!"))
+# Output: Positive
+
+print(predict_sentiment("Waited 3 hours in the queue. Food was overpriced and cold."))
+# Output: Negative
+```
 
 ---
 
-## 🤝 Connect With Me
+## 🧰 Tech Stack
 
-If you found this project useful, interesting, or have feedback —
-I'd love to hear from you!
+- **Python 3.8+**
+- **pandas / numpy** — data manipulation
+- **matplotlib / seaborn** — visualisation
+- **nltk** — tokenisation, stopwords, lemmatisation
+- **scikit-learn** — TF-IDF, Logistic Regression, evaluation
+- **joblib** — model serialisation
+- **Jupyter Notebook** — interactive development
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](www.linkedin.com/in/
-vishvi-vishvi-518046360
-)
-[![GitHub](https://img.shields.io/badge/GitHub-vishvi31-black?style=flat-square&logo=github)](https://github.com/vishvi31)
+---
 
-⭐ If this helped you, a star on the repo means a lot!
+## 👩‍💻 About the Author
+
+**Vishvi** — Data Science & AI Practitioner, transitioning from an English Literature background (BA Hons, University of Delhi). Currently completing the **IBM Data Science Professional Certificate** on Coursera.
+
+> *"My background in literature gives me a natural edge in NLP — understanding language isn't just technical, it's contextual."*
+
+[![GitHub](https://img.shields.io/badge/GitHub-vishvi31-181717?style=flat&logo=github)](https://github.com/vishvi31)
+
+---
+
+<div align="center">
+<sub>Built with 🧠 and 📊 · Part of Vishvi's Data Science Portfolio</sub>
+</div>
